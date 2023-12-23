@@ -11,4 +11,9 @@ class Savings extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function relation_transaction()
+    {
+        return $this->hasOne(Transactions::class, 'savings_id');
+    }
 }

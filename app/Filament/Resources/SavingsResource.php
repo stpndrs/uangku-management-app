@@ -52,6 +52,10 @@ class SavingsResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->money('IDR'),
+                TextColumn::make('remaining_money')
+                    ->sortable()
+                    ->searchable()
+                    ->money('IDR'),
                 TextColumn::make('date')
                     ->sortable()
                     ->searchable()
