@@ -31,13 +31,13 @@ class EditTransactions extends EditRecord
         if ($record->price !== $data['price']) {
             if ($record->price > $data['price']) {
                 $saving->update([
-                    'remaining_money' => $saving->remaining_money + ($record->price - $data['price'])
+                    'remaining_money' => intval($saving->remaining_money) + (intval($record->price - $data['price']))
                 ]);
 
                 $record->update($data);
             } else if ($saving->remaining_money >= $data['price']) {
                 $saving->update([
-                    'remaining_money' => $saving->remaining_money - $data['price']
+                    'remaining_money' => intval($saving->remaining_money) - intval($data['price'])
                 ]);
 
                 $record->update($data);

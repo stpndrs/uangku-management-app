@@ -17,7 +17,7 @@ class CreateTransactions extends CreateRecord
 
         if ($saving->remaining_money >= $data['price']) {
             $saving->update([
-                'remaining_money' => $saving->remaining_money - $data['price']
+                'remaining_money' => intval($saving->remaining_money) - intval($data['price'])
             ]);
         }
 

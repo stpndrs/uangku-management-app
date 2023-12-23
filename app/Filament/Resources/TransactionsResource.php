@@ -12,6 +12,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -37,12 +38,20 @@ class TransactionsResource extends Resource
                     ->options(
                         Savings::all()->pluck('name', 'id')->toArray()
                     )
-                    ->required(),
+                    ->required()
+                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
+                        $data = Savings::find($state);
+                        $set('remaining_money', $data->remaining_money);
+                    })
+                    ->live(),
+                TextInput::make('remaining_money')
+                ->label('Remaining in selected saving')
+                    ->disabled(),
                 TextInput::make('price')
                     ->numeric()
                     ->required(),
-                TextInput::make('discount')
-                    ->numeric(),
+                // TextInput::make('discount')
+                //     ->numeric(),
                 DatePicker::make('date')
                     ->required(),
                 TextInput::make('for')
