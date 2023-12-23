@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\CheckboxColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -88,6 +89,7 @@ class DebtsResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->money('IDR'),
+                CheckboxColumn::make('status')
             ])
             ->defaultSort('debt_time', 'desc')
             ->filters([
