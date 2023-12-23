@@ -81,7 +81,7 @@ class TransactionsResource extends Resource
                     ->searchable(),
                 ImageColumn::make('proof')
             ])
-            ->defaultSort('date', 'asc')
+            ->defaultSort('date', 'desc')
             ->filters([
                 //
             ])

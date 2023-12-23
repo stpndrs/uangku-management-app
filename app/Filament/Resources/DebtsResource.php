@@ -89,7 +89,7 @@ class DebtsResource extends Resource
                     ->searchable()
                     ->money('IDR'),
             ])
-            ->defaultSort('debt_time', 'asc')
+            ->defaultSort('debt_time', 'desc')
             ->filters([
                 //
             ])

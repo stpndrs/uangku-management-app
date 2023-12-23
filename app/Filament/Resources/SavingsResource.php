@@ -57,7 +57,7 @@ class SavingsResource extends Resource
                     ->searchable()
                     ->date(),
             ])
-            ->defaultSort('date', 'asc')
+            ->defaultSort('date', 'desc')
             ->filters([
                 //
             ])
