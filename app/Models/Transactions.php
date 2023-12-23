@@ -11,4 +11,8 @@ class Transactions extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function relation_savings() {
+        return $this->belongsTo(Savings::class, 'savings_id');
+    }
 }

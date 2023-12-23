@@ -55,7 +55,9 @@ class SavingsResource extends Resource
                 TextColumn::make('date')
                     ->sortable()
                     ->searchable()
+                    ->date(),
             ])
+            ->defaultSort('date', 'asc')
             ->filters([
                 //
             ])

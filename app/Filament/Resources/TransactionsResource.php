@@ -37,6 +37,7 @@ class TransactionsResource extends Resource
                     ->options(
                         Savings::all()->pluck('name', 'id')->toArray()
                     )
+                    ->multiple()
                     ->required(),
                 TextInput::make('price')
                     ->numeric()
@@ -61,7 +62,7 @@ class TransactionsResource extends Resource
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('savings_id')
+                TextColumn::make('relation_savings.name')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('price')
@@ -73,12 +74,14 @@ class TransactionsResource extends Resource
                     ->searchable(),
                 TextColumn::make('date')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->date(),
                 TextColumn::make('for')
                     ->sortable()
                     ->searchable(),
                 ImageColumn::make('proof')
             ])
+            ->defaultSort('date', 'asc')
             ->filters([
                 //
             ])

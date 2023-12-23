@@ -76,15 +76,20 @@ class DebtsResource extends Resource
                     ->html(),
                 TextColumn::make('debt_time')
                     ->sortable()
-                    ->searchable()->label('You owe the date'),
+                    ->searchable()
+                    ->label('You owe the date')
+                    ->date(),
                 TextColumn::make('due_date')
                     ->sortable()
-                    ->searchable()->label('Your debt is due on the date'),
+                    ->searchable()
+                    ->label('Your debt is due on the date')
+                    ->date(),
                 TextColumn::make('amount')
                     ->sortable()
                     ->searchable()
                     ->money('IDR'),
             ])
+            ->defaultSort('debt_time', 'asc')
             ->filters([
                 //
             ])
