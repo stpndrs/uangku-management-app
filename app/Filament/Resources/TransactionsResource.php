@@ -37,7 +37,6 @@ class TransactionsResource extends Resource
                     ->options(
                         Savings::all()->pluck('name', 'id')->toArray()
                     )
-                    ->multiple()
                     ->required(),
                 TextInput::make('price')
                     ->numeric()
