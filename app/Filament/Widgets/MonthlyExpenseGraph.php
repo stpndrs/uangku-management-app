@@ -30,13 +30,13 @@ class MonthlyExpenseGraph extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
+                    'label' => 'Monthly expense graph',
                     'data' => $data->pluck('total_amount')->toArray(),
                     'fill' => true
                 ],
             ],
             'labels' => $data->map(function ($item, $index) use ($monthNames) {
-                $month = $monthNames[$index + 1];
+                $month = isset($monthNames[$index]) ? $monthNames[$index] : '';
                 return $item['year'] . '-' . $month;
             })->toArray(),
         ];
