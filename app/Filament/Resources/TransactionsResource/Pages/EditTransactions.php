@@ -28,7 +28,7 @@ class EditTransactions extends EditRecord
     {
         $saving = Savings::find($data['savings_id']);
 
-        if ($record->saving_id === $data['saving_id']) {
+        if ($record->savings_id === $data['saving_id']) {
             if ($record->price !== $data['price']) {
                 if ($record->price > $data['price']) {
                     $saving->update([
@@ -54,7 +54,7 @@ class EditTransactions extends EditRecord
                 }
             }
         } else {
-            $oldSaving = Savings::find($record->saving_id);
+            $oldSaving = Savings::find($record->savings_id);
 
             $oldSaving->update([
                 'remaining_money' => $oldSaving->remaining_money - $data['price']
