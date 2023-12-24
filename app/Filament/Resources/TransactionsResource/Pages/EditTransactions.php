@@ -28,29 +28,43 @@ class EditTransactions extends EditRecord
     {
         $saving = Savings::find($data['savings_id']);
 
-        if ($record->price !== $data['price']) {
-            if ($record->price > $data['price']) {
-                $saving->update([
-                    'remaining_money' => $saving->remaining_money + ($record->price - $data['price'])
-                ]);
-
-                $record->update($data);
-            } else if ($saving->remaining_money >= $data['price']) {
-                $saving->update([
-                    'remaining_money' => $saving->remaining_money - $data['price']
-                ]);
-
-                $record->update($data);
-            } else {
-                Notification::make()
-                    ->danger()
-                    ->title('The remaining savings selected are insufficient!')
-                    ->body('Choose another savings source that still has a remaining balance.')
-                    ->persistent()
-                    ->send();
-
-                $this->halt();
+        if ($record->saving_id === $data['saving_9d']) {
+            if ($record->price !== $data['price']) {
+                if ($record->price > $data['price']) {
+                    $saving->update([
+                        'remaining_money' => $saving->remaining_money + ($record->price - $data['price'])
+                    ]);
+    
+                    $record->update($data);
+                } else if ($saving->remaining_money >= $data['price']) {
+                    $saving->update([
+                        'remaining_money' => $saving->remaining_money - $data['price']
+                    ]);
+    
+                    $record->update($data);
+                } else {
+                    Notification::make()
+                        ->danger()
+                        ->title('The remaining savings selected are insufficient!')
+                        ->body('Choose another savings source that still has a remaining balance.')
+                        ->persistent()
+                        ->send();
+    
+                    $this->halt();
+                }
             }
+        } else {
+            $oldSaving = Savings::find($record->saving_id);
+
+            $oldSaving->update([
+                'remaining_money' => $oldSaving->remaining_money - $data['price']
+            ]);
+
+            $saving->update([
+                'remaining_money' => $saving->remaining_money + ($record->price - $data['price'])
+            ]);
+
+            $record->update($data);
         }
 
 
