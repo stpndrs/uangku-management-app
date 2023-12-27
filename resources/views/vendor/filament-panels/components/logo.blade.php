@@ -1,0 +1,1 @@
+<img src="{{ asset('images/tulisan.svg') }}" alt="Logo" class="w-20" />
