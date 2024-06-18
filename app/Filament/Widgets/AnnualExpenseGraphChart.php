@@ -11,7 +11,7 @@ class AnnualExpenseGraphChart extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Transactions::selectRaw('YEAR(date) as year, COALESCE(SUM(price), 0) as total_amount')
+        $data = Transactions::selectRaw('YEAR(date) as year, COALESCE(SUM(amount), 0) as total_amount')
             ->groupBy('year')
             ->get();
 

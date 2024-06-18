@@ -16,8 +16,8 @@ class StatsOverview extends BaseWidget
         $transactions = Transactions::all();
         $debt = Debts::whereStatus(false)->get();
 
-        $totalSaving = $savings->sum('amount') - $transactions->sum('price');
-        $totalTransaction = $transactions->sum('price');
+        $totalSaving = $savings->sum('amount');
+        $totalTransaction = $transactions->sum('amount');
         $totalDebt = $debt->sum('amount');
 
         return [

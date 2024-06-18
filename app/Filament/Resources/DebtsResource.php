@@ -53,10 +53,14 @@ class DebtsResource extends Resource
                 DatePicker::make('debt_time')
                     ->required()
                     ->label('The date you owe')
-                    ->default(date('Y-m-d')),
-                DatePicker::make('due_date')
+                    ->default(date('Y-m-d'))
+                    ->columnSpanFull(),
+                TextInput::make('from')
                     ->required()
-                    ->label('The due date of your debt'),
+                    ->label('From'),
+                TextInput::make('to')
+                    ->required()
+                    ->label('To'),
                 TextInput::make('amount')
                     ->numeric()
                     ->required()
@@ -80,10 +84,15 @@ class DebtsResource extends Resource
                     ->searchable()
                     ->label('You owe the date')
                     ->date(),
-                TextColumn::make('due_date')
+                TextColumn::make('from')
                     ->sortable()
                     ->searchable()
-                    ->label('Your debt is due on the date')
+                    ->label('From')
+                    ->date(),
+                TextColumn::make('to')
+                    ->sortable()
+                    ->searchable()
+                    ->label('To')
                     ->date(),
                 TextColumn::make('amount')
                     ->sortable()

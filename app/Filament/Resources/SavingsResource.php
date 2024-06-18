@@ -7,6 +7,7 @@ use App\Filament\Resources\SavingsResource\RelationManagers;
 use App\Models\Savings;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -34,7 +35,25 @@ class SavingsResource extends Resource
                     ->numeric()
                     ->required(),
                 DatePicker::make('date')
-                    ->required()
+                    ->required(),
+                RichEditor::make('description')
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'codeBlock',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -52,14 +71,14 @@ class SavingsResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->money('IDR'),
-                TextColumn::make('remaining_money')
-                    ->sortable()
-                    ->searchable()
-                    ->money('IDR'),
                 TextColumn::make('date')
                     ->sortable()
                     ->searchable()
                     ->date(),
+                TextColumn::make('description')
+                    ->sortable()
+                    ->searchable()
+                    ->html(),
             ])
             ->defaultSort('date', 'desc')
             ->filters([

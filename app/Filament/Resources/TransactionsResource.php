@@ -9,6 +9,7 @@ use App\Models\Transactions;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -33,33 +34,32 @@ class TransactionsResource extends Resource
             ->schema([
                 TextInput::make('name')
                     ->required(),
-                Select::make('savings_id')
-                    ->label('Savings')
-                    ->options(
-                        Savings::all()->pluck('name', 'id')->toArray()
-                    )
-                    ->required()
-                    ->afterStateUpdated(function (?string $state, ?string $old, Set $set) {
-                        $data = Savings::find($state);
-                        $set('remaining_money', $data->remaining_money);
-                    })
-                    ->live(),
-                TextInput::make('remaining_money')
-                ->label('Remaining in selected saving')
-                    ->disabled(),
-                TextInput::make('price')
+                TextInput::make('amount')
                     ->numeric()
                     ->required(),
-                // TextInput::make('discount')
-                //     ->numeric(),
                 DatePicker::make('date')
-                    ->required(),
-                TextInput::make('for')
                     ->required(),
                 FileUpload::make('proof')
                     ->image()
-                    ->imageEditor()
-                    ->columnSpanFull()
+                    ->imageEditor(),
+                RichEditor::make('description')
+                    ->toolbarButtons([
+                        'attachFiles',
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'codeBlock',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -70,24 +70,19 @@ class TransactionsResource extends Resource
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('relation_savings.name')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('price')
+                TextColumn::make('amount')
                     ->sortable()
                     ->searchable()
                     ->money('IDR'),
-                TextColumn::make('discount')
-                    ->sortable()
-                    ->searchable(),
                 TextColumn::make('date')
                     ->sortable()
                     ->searchable()
                     ->date(),
-                TextColumn::make('for')
+                ImageColumn::make('proof'),
+                TextColumn::make('description')
                     ->sortable()
-                    ->searchable(),
-                ImageColumn::make('proof')
+                    ->searchable()
+                    ->html(),
             ])
             ->defaultSort('date', 'desc')
             ->filters([

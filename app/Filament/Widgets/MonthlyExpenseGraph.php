@@ -12,33 +12,27 @@ class MonthlyExpenseGraph extends ChartWidget
 
     protected function getData(): array
     {
-        $months = collect(range(1, 12))->map(function ($month) {
-            return sprintf('%02d', $month);
-        });
+        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $data = [];
 
-        $monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        // Calculate the sum of transactions for each month
+        foreach ($monthNames as $key => $value) {
+            $monthNumber = str_pad($key + 1, 2, '0', STR_PAD_LEFT);
+            $data[$value] = Transactions::whereMonth('date', $monthNumber)->whereYear('date', date('Y'))->sum('amount');
+        }
 
-        $data = Transactions::selectRaw('MONTH(date) as month, YEAR(date) as year, COALESCE(SUM(price), 0) as total_amount')
-            ->rightJoin(DB::raw("(SELECT '" . implode("' as month UNION SELECT '", $months->toArray()) . "') as months"), function ($join) {
-                $join->on('month', '=', DB::raw("MONTH(date)"));
-            })
-            ->groupBy('year', 'month', 'date')
-            ->orderBy('year', 'asc')
-            ->orderBy('month', 'asc')
-            ->get();
+        // Convert the $data array to a collection to use the map method
+        $dataCollection = collect($data);
 
         return [
             'datasets' => [
                 [
                     'label' => 'Monthly expense graph',
-                    'data' => $data->pluck('total_amount')->toArray(),
+                    'data' => $dataCollection,
                     'fill' => true
                 ],
             ],
-            'labels' => $data->map(function ($item, $index) use ($monthNames) {
-                $month = isset($monthNames[$index]) ? $monthNames[$index] : '';
-                return $item['year'] . '-' . $month;
-            })->toArray(),
+            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         ];
     }
 
