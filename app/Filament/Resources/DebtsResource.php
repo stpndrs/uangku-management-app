@@ -87,13 +87,11 @@ class DebtsResource extends Resource
                 TextColumn::make('from')
                     ->sortable()
                     ->searchable()
-                    ->label('From')
-                    ->date(),
+                    ->label('From'),
                 TextColumn::make('to')
                     ->sortable()
                     ->searchable()
-                    ->label('To')
-                    ->date(),
+                    ->label('To'),
                 TextColumn::make('amount')
                     ->sortable()
                     ->searchable()
